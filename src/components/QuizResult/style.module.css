@@ -1,0 +1,19 @@
+.QuizResult {
+  padding: 20px;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  margin: 0 10px;
+  box-sizing: border-box;
+}
+.ResList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ResList li {
+  margin-bottom: 5px;
+}
+.ResList li i {
+  margin-left: 10px;
+}
