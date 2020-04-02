@@ -3,6 +3,9 @@ import { Component } from "react";
 import styles from "./style.module.css";
 import ActiveQuiz from "../../components/ActiveQuiz";
 import QuizResult from "../../components/QuizResult";
+import {withRouter} from "react-router-dom";
+import {axiosInstance} from "../../services/axiois/axios";
+import Loader from "../../components/UI/Loader/Loader";
 
 class Quiz extends Component {
 
@@ -11,41 +14,7 @@ class Quiz extends Component {
     answerResult: null,
     isFinished: false,
     quizResults: [],
-    quiz: [
-      {
-        question: "My mother is a good cook.",
-        questionId: 0,
-        rightAnswerId: 2,
-        answers: [
-          { text: "I agree to you.", id: 1 },
-          { text: "I agree with you.", id: 2 },
-          { text: "I agree you.", id: 3 },
-          { text: "I agree for you.", id: 4 }
-        ]
-      },
-      {
-        question: "Where's Mike?",
-        questionId: 1,
-        rightAnswerId: 4,
-        answers: [
-          { text: "For three hours.", id: 1 },
-          { text: "No, he isn't.", id: 2 },
-          { text: "At eight.", id: 3 },
-          { text: "At school.", id: 4 }
-        ]
-      },
-      {
-        question: "*********?",
-        questionId: 2,
-        rightAnswerId: 4,
-        answers: [
-          { text: "For three hours.", id: 1 },
-          { text: "No, he isn't.", id: 2 },
-          { text: "At eight.", id: 3 },
-          { text: "At school.", id: 4 }
-        ]
-      }
-    ]
+    quiz: [],
   };
   onAnswerClickHandler = answerId => {
     if (!this.state.answerResult) {
@@ -105,13 +74,26 @@ class Quiz extends Component {
       quizResults: []
     }));
   };
+  async componentDidMount() {
+    try {
+    const {data} = await axiosInstance.get(`quizez/${this.props.match.params.id}.json`)
+    this.setState({
+      quiz: data
+    })
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
 
   render() {
     return (
       <div className={styles.Quiz}>
         <div className={styles.QuizWrap}>
           <h1>Test</h1>
-          {this.state.isFinished ? (
+          {this.state.quiz && this.state.quiz.length
+              ?
+          this.state.isFinished ? (
             <QuizResult
               results={this.state.quizResults}
               questionState={this.state.quiz}
@@ -125,10 +107,13 @@ class Quiz extends Component {
               questionsLength={this.state.quiz.length}
               answerRes={this.state.answerResult}
             />
-          )}
+          )
+          :
+          <Loader/>
+          }
         </div>
       </div>
     );
   }
 }
-export default Quiz;
+export default withRouter(Quiz);

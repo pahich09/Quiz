@@ -3,6 +3,7 @@ import styles from './Auth.module.css'
 import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import is from 'is_js';
+import Axios from "axios";
 
 class Auth extends Component{
     state = {
@@ -73,8 +74,22 @@ class Auth extends Component{
             formControls
         })
     }
-    loginHandler = ()=>{}
-    passwordHandler=()=>{}
+    loginHandler = ()=>{
+    }
+    registerHandler= async ()=>{
+        const authData = {
+            email: this.state.formControls.email.value,
+            password: this.state.formControls.password.value,
+            returnSecureToken: true
+        }
+        try{
+        const {data} = await Axios
+            .post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDKzXoaubP4VZW648rK9defxM9hMT7uxyY`, authData)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
     renderInputs =()=>{
         return Object.keys(this.state.formControls).map((controlName, i)=>{
             const control = this.state.formControls[controlName]
@@ -100,10 +115,12 @@ render() {
             <form className={styles.AuthForm} onSubmit={this.submitHandler}>
                 {this.renderInputs()}
                 <Button
+                    onClick={this.loginHandler}
                     type='success'
                     disabled={!this.state.isFormValid}
                 >Войти</Button>
                 <Button
+                    onClick={this.registerHandler}
                     type ='primary'
                     disabled={!this.state.isFormValid}
                 >Регистрация</Button>
