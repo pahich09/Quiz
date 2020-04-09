@@ -22,6 +22,7 @@ const Input = props =>{
                 type={inputType}
                 onChange={props.onChange}
                 value={props.value}
+                placeholder={props.placeholder}
             />
             {isInvalid(props)
                 ?

@@ -6,11 +6,9 @@
     flex-grow: 1;
     width: 100%;
     background: #0e9c9f;
+    color: #fff;
+}
 
-}
-.QuizList h1{
-    color: white;
-}
 .QuizList ul {
     list-style: none;
     margin: 0;
@@ -21,7 +19,7 @@
 }
 .QuizList li a {
     text-decoration: none;
-    color: white;
+    color: #fff;
 }
 .QuizList li a:hover{
     color: #3f3f54;

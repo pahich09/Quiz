@@ -9,7 +9,6 @@ const QuizResult = props => {
   let rightRes = props.results.reduce((res, el) => {
     return el.questionRes === "success" ? ++res : res;
   }, 0);
-  console.log(rightRes);
   return (
     <div className={styles.QuizResult}>
       <h2>Results</h2>

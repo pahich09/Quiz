@@ -1,0 +1,13 @@
+export const FETCH_START = 'FETCH_START'
+export const FETCH_SUCCESS = 'FETCH_SUCCESS'
+export const FETCH_ERROR = 'FETCH_ERROR'
+export const FETCH_QUIZ = 'FETCH_QUIZ'
+export const CHECK_ANSWER = 'CHECK_ANSWER'
+export const SET_ACTIVE_QUESTION = 'SET_ACTIVE_QUESTION'
+export const FINISH_QUIZ = 'FINISH_QUIZ'
+export const RETRY_QUIZ = 'RETRY_QUIZ'
+export const ADD_QUESTION = 'ADD_QUESTION'
+export const CREATE_QUIZ = 'CREATE_QUIZ'
+export const AUTH_SUCCESS = 'AUTH_SUCCESS'
+export const AUTH_LOGOUT = 'AUTH_LOGOUT'
+

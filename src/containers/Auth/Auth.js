@@ -4,12 +4,14 @@ import Button from "../../components/UI/Button/Button";
 import Input from "../../components/UI/Input/Input";
 import is from 'is_js';
 import Axios from "axios";
+import {connect} from "react-redux";
+import {auth} from "../../store/actions/auth";
 
-class Auth extends Component{
+class Auth extends Component {
     state = {
         isFormValid: false,
         formControls: {
-            email:{
+            email: {
                 value: '',
                 type: 'email',
                 label: 'Email',
@@ -35,38 +37,38 @@ class Auth extends Component{
             }
         }
     }
-    validateControl=(value, validation)=>{
-        if(!validation){
+    validateControl = (value, validation) => {
+        if (!validation) {
             return true
         }
         let isValid = true;
-        if(validation.required){
-            isValid =value.trim() !== '' && isValid
+        if (validation.required) {
+            isValid = value.trim() !== '' && isValid
         }
-        if(validation.email){
-           isValid =  is.email(value) && isValid
+        if (validation.email) {
+            isValid = is.email(value) && isValid
         }
-        if(validation.minLength){
+        if (validation.minLength) {
             isValid = value.length >= 6 && isValid
         }
         return isValid;
     }
-    submitHandler=(e)=>{
+    submitHandler = (e) => {
         e.preventDefault()
     }
-    onChangeHandler=(e,controlName)=>{
+    onChangeHandler = (e, controlName) => {
 
-        const  formControls = {...this.state.formControls};
+        const formControls = {...this.state.formControls};
         const control = {...formControls[controlName]};
 
         control.value = e.target.value;
         control.touched = true;
         control.valid = this.validateControl(control.value, control.validation);
-        formControls[controlName]= control;
+        formControls[controlName] = control;
 
         let isFormValid = true;
 
-        Object.keys(formControls).forEach(name=>{
+        Object.keys(formControls).forEach(name => {
             isFormValid = formControls[name].valid && isFormValid
         })
         this.setState({
@@ -74,27 +76,37 @@ class Auth extends Component{
             formControls
         })
     }
-    loginHandler = ()=>{
+    loginHandler = () => {
+        this.props.auth(this.state.formControls.email.value,
+            this.state.formControls.password.value,
+            true
+        )
     }
-    registerHandler= async ()=>{
-        const authData = {
-            email: this.state.formControls.email.value,
-            password: this.state.formControls.password.value,
-            returnSecureToken: true
-        }
-        try{
-        const {data} = await Axios
-            .post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDKzXoaubP4VZW648rK9defxM9hMT7uxyY`, authData)
-        }
-        catch (e) {
-            console.log(e)
-        }
+    //     const authData = {
+    //         email: this.state.formControls.email.value,
+    //         password: this.state.formControls.password.value,
+    //         returnSecureToken: true
+    //     }
+    //     try{
+    //         const {data} = await Axios
+    //             .post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDKzXoaubP4VZW648rK9defxM9hMT7uxyY`, authData)
+    //    console.log(data)
+    //     }
+    //     catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    registerHandler = () => {
+        this.props.auth(this.state.formControls.email.value,
+            this.state.formControls.password.value,
+            false
+        )
     }
-    renderInputs =()=>{
-        return Object.keys(this.state.formControls).map((controlName, i)=>{
+    renderInputs = () => {
+        return Object.keys(this.state.formControls).map((controlName, i) => {
             const control = this.state.formControls[controlName]
             return <Input
-                key={controlName+i}
+                key={controlName + i}
                 type={control.type}
                 value={control.value}
                 valid={control.valid}
@@ -102,31 +114,32 @@ class Auth extends Component{
                 label={control.label}
                 errorMessage={control.errorMessage}
                 // shouldValidate={!!control.validation}
-                onChange={e=>this.onChangeHandler(e, controlName)}
+                onChange={e => this.onChangeHandler(e, controlName)}
             />
         })
     }
 
-render() {
-    const cls = [styles.Auth];
-    return <div className={cls.join(' ')}>
-        <div>
-            <h1>Авторизация</h1>
-            <form className={styles.AuthForm} onSubmit={this.submitHandler}>
-                {this.renderInputs()}
-                <Button
-                    onClick={this.loginHandler}
-                    type='success'
-                    disabled={!this.state.isFormValid}
-                >Войти</Button>
-                <Button
-                    onClick={this.registerHandler}
-                    type ='primary'
-                    disabled={!this.state.isFormValid}
-                >Регистрация</Button>
-            </form>
+    render() {
+        const cls = [styles.Auth];
+        return <div className={cls.join(' ')}>
+            <div>
+                <h1>Авторизация</h1>
+                <form className={styles.AuthForm} onSubmit={this.submitHandler}>
+                    {this.renderInputs()}
+                    <Button
+                        onClick={this.loginHandler}
+                        type='success'
+                        disabled={!this.state.isFormValid}
+                    >Войти</Button>
+                    <Button
+                        onClick={this.registerHandler}
+                        type='primary'
+                        disabled={!this.state.isFormValid}
+                    >Регистрация</Button>
+                </form>
+            </div>
         </div>
-       </div>
+    }
 }
-}
-export default Auth
+
+export default connect(null, {auth})(Auth)
