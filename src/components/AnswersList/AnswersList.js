@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./style.module.css";
-import AnswerItem from "../AnswerItem";
+import styles from "./AnswersList.module.css";
+import AnswerItem from "../AnswerItem/AnswerItem";
 
 const AnswersList = props => {
   return (

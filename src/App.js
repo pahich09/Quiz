@@ -13,7 +13,6 @@ class App extends Component {
     componentDidMount() {
         this.props.autoLogin()
     }
-
     render() {
         let routes = this.props.isAuth
             ?

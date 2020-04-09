@@ -12,8 +12,8 @@
   transition: background 0.5s;
 }
 .error, .error:hover {
-  background: rgba(240,87,108,1);
+  background: rgb(190, 24, 37);
 }
 .success, .success:hover {
-  background: rgba(56, 125, 56,1);
+  background: rgb(62, 143, 60);
 }

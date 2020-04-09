@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style.module.css";
+import styles from "./AnswerItem.module.css";
 
 const AnswerItem = props => {
   const cls = [styles.AnswerItem];
